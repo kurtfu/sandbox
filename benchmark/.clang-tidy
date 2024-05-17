@@ -1,0 +1,9 @@
+---
+Checks: '
+    -cert-err58-cpp,
+    -misc-use-anonymous-namespace
+    -cppcoreguidelines-avoid-non-const-global-variables
+    -cppcoreguidelines-owning-memory
+'
+InheritParentConfig: true
+...
