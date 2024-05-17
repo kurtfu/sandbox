@@ -1,0 +1,13 @@
+{
+    "clangd.arguments": [
+        "--include-cleaner-stdlib",
+        "--header-insertion=never"
+    ],
+    "cmake.configureOnOpen": false,
+    "cmake.useCMakePresets": "auto",
+    "C_Cpp.codeAnalysis.exclude": {
+        "**/build": true,
+        "**/tests": true
+    },
+    "docker.languageserver.formatter.ignoreMultilineInstructions": true
+}
