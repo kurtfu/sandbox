@@ -3,10 +3,15 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "widget.hpp"
+
 /*****************************************************************************/
 /*** TEST CASES **************************************************************/
 
 TEST_CASE("Dummy test")
 {
-    REQUIRE_NOTHROW(true);
+    Widget lhs{};
+    Widget rhs{};
+
+    REQUIRE_NOTHROW(lhs != rhs);
 }
