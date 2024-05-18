@@ -15,6 +15,9 @@ include(Linter)
 include(Optimization)
 include(Utils)
 
+find_package(benchmark)
+find_package(Catch2)
+
 setup_executable(
     TARGET
         sandbox
@@ -24,20 +27,24 @@ setup_executable(
         include
 )
 
-setup_benchmark(
+setup_executable(
     TARGET
         sandbox-benchmark
     SOURCES
         benchmark/dummy.cpp
     INCLUDES
         include
+    LIBRARIES
+        benchmark::benchmark_main
 )
 
-setup_test(
+setup_coverage(
     TARGET
         sandbox-test
     SOURCES
         tests/dummy.cpp
     INCLUDES
         include
+    LIBRARIES
+        Catch2::Catch2WithMain
 )
