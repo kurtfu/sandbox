@@ -10,7 +10,8 @@
                 "ENABLE_COVERAGE": "OFF",
                 "ENABLE_LINTERS": "OFF",
                 "ENABLE_IPO": "OFF",
-                "ENABLE_SANITIZERS": "OFF"
+                "ENABLE_SANITIZERS": "OFF",
+                "USE_STATIC_STD": "OFF"
             }
         },
         {
