@@ -1,4 +1,3 @@
-include(Coverage)
 include(Linker)
 include(Sanitizer)
 include(Warnings)
@@ -17,27 +16,6 @@ function(setup_executable)
 
     setup_target_warnings(${EXECUTABLE_TARGET})
     setup_target_for_sanitizer(${EXECUTABLE_TARGET})
-endfunction()
-
-function(setup_coverage)
-    set(oneValueArgs TARGET)
-    set(multiValueArgs SOURCES INCLUDES LIBRARIES)
-
-    cmake_parse_arguments(COVERAGE "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
-
-    _setup_executable_sources(${COVERAGE_TARGET} ${COVERAGE_SOURCES})
-    _setup_target_includes(${COVERAGE_TARGET} ${COVERAGE_INCLUDES})
-    _setup_target_libraries(${COVERAGE_TARGET} ${COVERAGE_LIBRARIES})
-
-    setup_target_link_strategy(${COVERAGE_TARGET})
-
-    setup_target_warnings(${COVERAGE_TARGET})
-    setup_target_for_sanitizer(${COVERAGE_TARGET})
-
-    if(Coverage_FOUND)
-        append_coverage_flags(${COVERAGE_TARGET})
-        add_coverage_target(${COVERAGE_TARGET})
-    endif()
 endfunction()
 
 macro(_setup_executable_sources target)

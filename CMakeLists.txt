@@ -10,6 +10,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
+include(Coverage)
 include(Docs)
 include(Linter)
 include(Optimization)
@@ -38,7 +39,7 @@ setup_executable(
         benchmark::benchmark_main
 )
 
-setup_coverage(
+setup_executable(
     TARGET
         sandbox-test
     SOURCES
@@ -48,3 +49,5 @@ setup_coverage(
     LIBRARIES
         Catch2::Catch2WithMain
 )
+
+add_coverage(sandbox-test)
