@@ -3,7 +3,7 @@
 
 #include <benchmark/benchmark.h>
 
-#include <memory>
+#include <memory>  // IWYU pragma: keep
 
 /*****************************************************************************/
 /*** BENCHMARKS **************************************************************/
