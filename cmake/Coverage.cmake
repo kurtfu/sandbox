@@ -25,7 +25,11 @@ if(NOT GENHTML_BIN)
     set(Coverage_FOUND FALSE)
 endif()
 
-function(append_coverage_flags target)
+function(add_coverage target)
+    if(NOT Coverage_FOUND)
+        return()
+    endif()
+
     target_compile_options(${target}
         PRIVATE
             -fprofile-arcs
@@ -36,9 +40,7 @@ function(append_coverage_flags target)
         PRIVATE
             --coverage
     )
-endfunction()
 
-function(add_coverage_target target)
     add_custom_target("${target}-coverage"
         COMMAND
             ${CMAKE_COMMAND} -E make_directory docs/coverage
