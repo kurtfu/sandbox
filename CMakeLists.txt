@@ -14,13 +14,20 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 include(Coverage)
+include(CPM)
 include(Docs)
 include(Linter)
 include(Optimization)
 include(Utils)
 
-find_package(benchmark)
-find_package(Catch2)
+if(DEFINED ENV{VCPKG_ROOT})
+    find_package(benchmark)
+    find_package(Catch2)
+else()
+    CPMAddPackage("gh:google/googletest#v1.14.0")
+    CPMAddPackage("gh:google/benchmark#v1.8.3")
+    CPMAddPackage("gh:catchorg/Catch2#v3.6.0")
+endif()
 
 setup_executable(
     TARGET
