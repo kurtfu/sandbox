@@ -29,6 +29,9 @@ else()
     CPMAddPackage("gh:catchorg/Catch2#v3.6.0")
 endif()
 
+include(CTest)
+include(Catch)
+
 setup_executable(
     TARGET
         sandbox
@@ -60,4 +63,5 @@ setup_executable(
         Catch2::Catch2WithMain
 )
 
+catch_discover_tests(sandbox-test)
 add_coverage(sandbox-test)
