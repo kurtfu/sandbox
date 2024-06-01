@@ -27,6 +27,8 @@ else()
     CPMAddPackage("gh:google/googletest#v1.14.0")
     CPMAddPackage("gh:google/benchmark#v1.8.3")
     CPMAddPackage("gh:catchorg/Catch2#v3.6.0")
+
+    list(APPEND CMAKE_MODULE_PATH "${Catch2_SOURCE_DIR}/extras")
 endif()
 
 include(CTest)
