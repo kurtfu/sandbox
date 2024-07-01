@@ -1,6 +1,9 @@
 {
     "image": "sandbox",
-    "runArgs": ["--name", "sandbox"],
+    "runArgs": [
+        "--name",
+        "sandbox"
+    ],
     "customizations": {
         "vscode": {
             "extensions": [
@@ -13,7 +16,7 @@
                 "ms-python.python",
                 "ms-vscode.cmake-tools",
                 "ms-vscode.cpptools",
-				"streetsidesoftware.code-spell-checker",
+                "streetsidesoftware.code-spell-checker",
                 "vadimcn.vscode-lldb"
             ]
         }

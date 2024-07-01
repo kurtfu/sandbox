@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim
+FROM ubuntu:24.04
 
 RUN set -eux; \
         apt-get update; \
@@ -12,7 +12,6 @@ RUN set -eux; \
             cppcheck \
             curl \
             doxygen \
-            gcovr \
             gdb \
             git \
             graphviz \
@@ -24,12 +23,13 @@ RUN set -eux; \
             python3 \
             tar \
             unzip \
+            valgrind \
             zip \
         ; \
         rm -rf /var/lib/apt/lists/*
 
-ENV VCPKG_FORCE_SYSTEM_BINARIES "1"
-ENV VCPKG_ROOT "$HOME/vcpkg"
+ENV VCPKG_FORCE_SYSTEM_BINARIES="1"
+ENV VCPKG_ROOT="/vcpkg"
 
 RUN git clone https://github.com/Microsoft/vcpkg.git && \
     ./vcpkg/bootstrap-vcpkg.sh
