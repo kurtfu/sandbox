@@ -1,8 +1,0 @@
----
-Checks: '
-    -cert-err58-cpp,
-    -cppcoreguidelines-avoid-do-while,
-    -misc-use-anonymous-namespace
-'
-InheritParentConfig: true
-...
