@@ -24,6 +24,7 @@ RUN set -eux; \
             tar \
             unzip \
             valgrind \
+            vim \
             zip \
         ; \
         rm -rf /var/lib/apt/lists/*
