@@ -1,9 +1,9 @@
 {
-    "image": "sandbox",
-    "runArgs": [
-        "--name",
-        "sandbox"
+    "dockerComposeFile": [
+        "docker-compose.yml"
     ],
+    "service": "sandbox",
+    "workspaceFolder": "/sandbox",
     "customizations": {
         "vscode": {
             "extensions": [
@@ -20,7 +20,5 @@
                 "vadimcn.vscode-lldb"
             ]
         }
-    },
-    "workspaceMount": "source=${localWorkspaceFolder},target=/sandbox,type=bind",
-    "workspaceFolder": "/sandbox"
+    }
 }

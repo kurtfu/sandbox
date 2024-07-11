@@ -1,0 +1,15 @@
+name: devcontainer
+
+services:
+    sandbox:
+        image: sandbox
+        hostname: ubuntu
+        container_name: sandbox
+        stdin_open: true
+        tty: true
+        volumes:
+            - type: bind
+              source: ..
+              target: /sandbox
+        ports:
+            - 8080:8080
