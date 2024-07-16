@@ -53,8 +53,9 @@ setup_executable(
         benchmark/dummy.cpp
     INCLUDES
         include
-    LIBRARIES
-        benchmark::benchmark_main
+    DEPENDENCIES
+        LIBRARIES
+            benchmark::benchmark_main
 )
 
 setup_executable(
@@ -64,7 +65,7 @@ setup_executable(
         tests/dummy.cpp
     INCLUDES
         include
-    LIBRARIES
+    DEPENDENCIES
         Catch2::Catch2WithMain
 )
 
