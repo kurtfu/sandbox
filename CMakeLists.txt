@@ -66,7 +66,8 @@ setup_executable(
     INCLUDES
         include
     DEPENDENCIES
-        Catch2::Catch2WithMain
+        LIBRARIES
+            Catch2::Catch2WithMain
 )
 
 catch_discover_tests(sandbox-test)
