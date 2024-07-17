@@ -1,0 +1,27 @@
+cmake_host_system_information(RESULT IS_64BIT QUERY IS_64BIT)
+
+if(COMPILER_TYPE STREQUAL "Clang")
+    set(CMAKE_C_COMPILER clang)
+    set(CMAKE_CXX_COMPILER clang++)
+
+    if(WIN32)
+        if(IS_64BIT)
+            set(VCPKG_TARGET_TRIPLET x64-mingw-static)
+        else()
+            set(VCPKG_TARGET_TRIPLET x86-mingw-static)
+        endif()
+    endif()
+elseif(COMPILER_TYPE STREQUAL "GNU")
+    set(CMAKE_C_COMPILER gcc)
+    set(CMAKE_CXX_COMPILER g++)
+
+    if(WIN32)
+        if(IS_64BIT)
+            set(VCPKG_TARGET_TRIPLET x64-mingw-static)
+        else()
+            set(VCPKG_TARGET_TRIPLET x86-mingw-static)
+        endif()
+    endif()
+endif()
+
+include($ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
