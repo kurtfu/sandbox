@@ -85,9 +85,7 @@
         {
             "name": "msvc-base",
             "hidden": true,
-            "cacheVariables": {
-                "CMAKE_GENERATOR": "Visual Studio 17 2022"
-            },
+            "generator": "Visual Studio 17 2022",
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
