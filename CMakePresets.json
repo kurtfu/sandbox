@@ -10,7 +10,6 @@
                 "CMAKE_CXX_STANDARD": "17",
                 "ENABLE_COVERAGE": "OFF",
                 "ENABLE_LINTERS": "OFF",
-                "ENABLE_IPO": "OFF",
                 "ENABLE_SANITIZERS": "OFF",
                 "USE_STATIC_STD": "OFF"
             }
@@ -20,7 +19,8 @@
             "hidden": true,
             "inherits": "common-base",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
+                "CMAKE_BUILD_TYPE": "Debug",
+                "ENABLE_IPO": "OFF"
             }
         },
         {
@@ -28,7 +28,8 @@
             "hidden": true,
             "inherits": "common-base",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
+                "CMAKE_BUILD_TYPE": "Release",
+                "ENABLE_IPO": "ON"
             }
         },
         {
