@@ -20,11 +20,11 @@ endfunction()
 
 function(setup_library)
     set(oneValueArgs TARGET)
-    set(multiValueArgs SOURCES INCLUDES DEPENDENCIES)
+    set(multiValueArgs TYPE SOURCES INCLUDES DEPENDENCIES)
 
     cmake_parse_arguments(LIBRARY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-    _setup_library_sources(${LIBRARY_TARGET} ${LIBRARY_SOURCES})
+    _setup_library_sources(${LIBRARY_TARGET} ${LIBRARY_TYPE} ${LIBRARY_SOURCES})
     _setup_target_includes(${LIBRARY_TARGET} ${LIBRARY_INCLUDES})
     _setup_target_dependencies(${LIBRARY_TARGET} ${LIBRARY_DEPENDENCIES})
 
@@ -40,8 +40,8 @@ macro(_setup_executable_sources target)
     )
 endmacro()
 
-macro(_setup_library_sources target)
-    add_library(${target}
+macro(_setup_library_sources target type)
+    add_library(${target} ${type}
         ${ARGN}
     )
 endmacro()
