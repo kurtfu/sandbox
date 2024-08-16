@@ -18,15 +18,26 @@ endif()
 if(NOT CPPCHECK)
     message(STATUS "cppcheck not found! Skipping...")
 else()
-    set(CMAKE_C_CPPCHECK ${CPPCHECK} --enable=all --suppress=missingIncludeSystem)
-    set(CMAKE_CXX_CPPCHECK ${CPPCHECK} --enable=all --suppress=missingIncludeSystem)
+    set(CMAKE_C_CPPCHECK
+        ${CPPCHECK}
+        --enable=warning,style,performance,portability
+        --inline-suppr
+        --suppress=*:${CMAKE_SOURCE_DIR}/benchmark/*
+        --suppress=*:${CMAKE_SOURCE_DIR}/tests/*
+    )
+
+    set(CMAKE_CXX_CPPCHECK
+        ${CPPCHECK}
+        --enable=warning,style,performance,portability
+        --inline-suppr
+        --suppress=*:${CMAKE_SOURCE_DIR}/benchmark/*
+        --suppress=*:${CMAKE_SOURCE_DIR}/tests/*
+    )
 endif()
 
 if(NOT INCLUDE_WHAT_YOU_USE)
     message(STATUS "include-what-you-use not found! Skipping...")
 else()
-    file(WRITE ${CMAKE_BINARY_DIR}/.clang-tidy "Checks: -*,readability-function-size\n")
-
     set(CMAKE_C_INCLUDE_WHAT_YOU_USE ${INCLUDE_WHAT_YOU_USE})
     set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE ${INCLUDE_WHAT_YOU_USE})
 endif()
