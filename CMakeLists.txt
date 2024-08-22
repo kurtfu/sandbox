@@ -54,8 +54,7 @@ setup_executable(
     INCLUDES
         include
     DEPENDENCIES
-        LIBRARIES
-            benchmark::benchmark_main
+        benchmark::benchmark_main
 )
 
 setup_executable(
@@ -66,8 +65,7 @@ setup_executable(
     INCLUDES
         include
     DEPENDENCIES
-        LIBRARIES
-            Catch2::Catch2WithMain
+        Catch2::Catch2WithMain
 )
 
 catch_discover_tests(sandbox-test)

@@ -47,24 +47,24 @@ macro(_setup_library_sources target type)
 endmacro()
 
 macro(_setup_target_includes target)
+    set(multiValueArgs SYSTEM)
+
+    cmake_parse_arguments(INCLUDES "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
     target_include_directories(${target}
         PRIVATE
-            ${ARGN}
+            ${INCLUDES_UNPARSED_ARGUMENTS}
+    )
+
+    target_include_directories(${target} SYSTEM
+        PRIVATE
+            ${INCLUDES_SYSTEM}
     )
 endmacro()
 
 macro(_setup_target_dependencies target)
-    set(multiValueArgs LINK_PATHS LIBRARIES)
-
-    cmake_parse_arguments(DEPENDENCY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
-
-    target_link_directories(${target}
-        PRIVATE
-            ${DEPENDENCY_LINK_PATHS}
-    )
-
     target_link_libraries(${target}
         PRIVATE
-            ${DEPENDENCY_LIBRARIES}
+            ${ARGN}
     )
 endmacro()
