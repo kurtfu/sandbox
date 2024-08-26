@@ -17,8 +17,6 @@ RUN set -eux; \
             graphviz \
             iwyu \
             lcov \
-            llvm \
-            ninja-build \
             pkg-config \
             python3 \
             tar \
@@ -29,10 +27,12 @@ RUN set -eux; \
         ; \
         rm -rf /var/lib/apt/lists/*
 
-ENV VCPKG_FORCE_SYSTEM_BINARIES="1"
-ENV VCPKG_ROOT="/vcpkg"
+WORKDIR /root
 
-RUN git clone https://github.com/Microsoft/vcpkg.git && \
-    ./vcpkg/bootstrap-vcpkg.sh
+RUN set -eux; \
+        git clone https://github.com/Microsoft/vcpkg.git; \
+        ./vcpkg/bootstrap-vcpkg.sh; \
+        echo "export VCPKG_ROOT=\$HOME/vcpkg" >> .bashrc; \
+        echo "export PATH=\$VCPKG_ROOT:\$PATH" >> .bashrc
 
-WORKDIR /sandbox
+WORKDIR /root/sandbox
