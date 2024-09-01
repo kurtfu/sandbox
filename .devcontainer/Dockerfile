@@ -9,20 +9,16 @@ RUN set -eux; \
             clang-format \
             clang-tidy \
             cmake \
-            cppcheck \
             curl \
-            doxygen \
             gdb \
             git \
-            graphviz \
-            iwyu \
-            lcov \
             pkg-config \
             python3 \
             tar \
             unzip \
             valgrind \
             vim \
+            wget \
             zip \
         ; \
         rm -rf /var/lib/apt/lists/*

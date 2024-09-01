@@ -11,5 +11,3 @@ services:
             - type: bind
               source: ..
               target: /root/sandbox
-        ports:
-            - 8080:8080
