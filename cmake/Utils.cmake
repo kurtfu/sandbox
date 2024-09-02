@@ -25,7 +25,7 @@ function(setup_library)
     cmake_parse_arguments(LIBRARY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
     _setup_library_sources(${LIBRARY_TARGET} ${LIBRARY_TYPE} ${LIBRARY_SOURCES})
-    _setup_target_includes(${LIBRARY_TARGET} ${LIBRARY_INCLUDES})
+    _setup_library_includes(${LIBRARY_TARGET} ${LIBRARY_INCLUDES})
     _setup_target_dependencies(${LIBRARY_TARGET} ${LIBRARY_DEPENDENCIES})
 
     setup_target_link_strategy(${LIBRARY_TARGET})
@@ -53,6 +53,22 @@ macro(_setup_target_includes target)
 
     target_include_directories(${target}
         PRIVATE
+            ${INCLUDES_UNPARSED_ARGUMENTS}
+    )
+
+    target_include_directories(${target} SYSTEM
+        PRIVATE
+            ${INCLUDES_SYSTEM}
+    )
+endmacro()
+
+macro(_setup_library_includes target)
+    set(multiValueArgs SYSTEM)
+
+    cmake_parse_arguments(INCLUDES "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
+    target_include_directories(${target}
+        PUBLIC
             ${INCLUDES_UNPARSED_ARGUMENTS}
     )
 
