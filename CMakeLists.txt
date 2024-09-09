@@ -25,22 +25,17 @@ include(Utils)
 find_package(benchmark)
 find_package(Catch2)
 
-
 include(CTest)
 include(Catch)
 
-setup_executable(
-    TARGET
-        sandbox
+setup_executable(sandbox
     SOURCES
         src/main.cpp
     INCLUDES
         include
 )
 
-setup_executable(
-    TARGET
-        sandbox-benchmark
+setup_executable(sandbox-benchmark
     SOURCES
         benchmark/dummy.cpp
     INCLUDES
@@ -49,9 +44,7 @@ setup_executable(
         benchmark::benchmark_main
 )
 
-setup_executable(
-    TARGET
-        sandbox-test
+setup_executable(sandbox-test
     SOURCES
         tests/dummy.cpp
     INCLUDES
