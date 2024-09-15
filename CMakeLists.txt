@@ -37,7 +37,7 @@ setup_executable(sandbox
 
 setup_executable(sandbox-benchmark
     SOURCES
-        benchmark/dummy.cpp
+        benchmark/accumulator.cpp
     INCLUDES
         include
     DEPENDENCIES
