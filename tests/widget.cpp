@@ -8,10 +8,10 @@
 /*****************************************************************************/
 /*** TEST CASES **************************************************************/
 
-TEST_CASE("Dummy test")
+TEST_CASE("Widget equity")
 {
     Widget lhs{};
     Widget rhs{};
 
-    REQUIRE_NOTHROW(lhs != rhs);
+    REQUIRE(lhs != rhs);
 }

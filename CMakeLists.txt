@@ -46,7 +46,7 @@ setup_executable(sandbox-benchmark
 
 setup_executable(sandbox-test
     SOURCES
-        tests/dummy.cpp
+        tests/widget.cpp
     INCLUDES
         include
     DEPENDENCIES
