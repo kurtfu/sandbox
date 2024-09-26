@@ -63,7 +63,7 @@ class Service:
         self.listener.start()
 
         while self.active:
-            cmd, args = (input('> ').split(maxsplit=1) + ['', ''])[:2]
+            cmd, args = (self.input().split(maxsplit=1) + ['', ''])[:2]
 
             if cmd == '':
                 continue
@@ -71,7 +71,7 @@ class Service:
             if cmd in self.commands:
                 self.commands[cmd](args)
             else:
-                self.println('error: invalid command!')
+                self.println(f'error: invalid command \'{cmd}\'')
 
     def quit(self, _: str) -> None:
         logging.info('Terminating service...')
@@ -104,7 +104,7 @@ class Service:
         }
 
         if topic not in manuals:
-            self.println(f'invalid help topic \'{topic}\'')
+            self.println(f'error: invalid help topic \'{topic}\'')
             return
 
         self.println(textwrap.dedent(manuals[topic]))
@@ -156,6 +156,13 @@ class Service:
 
             sys.stdout.write(f'> {readline.get_line_buffer()}')
             sys.stdout.flush()
+
+    def input(self) -> str:
+        with self.lock:
+            sys.stdout.write('\r\033[K')
+            sys.stdout.flush()
+
+        return input('> ')
 
 
 def main():
