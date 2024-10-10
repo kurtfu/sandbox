@@ -63,7 +63,7 @@ endmacro()
 macro(_setup_library_includes target)
     set(multiValueArgs SYSTEM)
 
-    cmake_parse_arguments(INCLUDES "" "" "${multiValueArgs}" ${ARGN})
+    cmake_parse_arguments(INCLUDES "" "" "${multiValueArgs}" ${TARGET_INCLUDES})
 
     target_include_directories(${target}
         PUBLIC
