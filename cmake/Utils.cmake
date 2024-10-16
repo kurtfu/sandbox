@@ -8,7 +8,7 @@ function(setup_executable target)
     cmake_parse_arguments(TARGET "" "" "${multiValueArgs}" ${ARGN})
 
     _setup_executable_sources(${target})
-    _setup_executable_includes(${target})
+    _setup_target_includes(${target} PUBLIC)
     _setup_target_dependencies(${target})
 
     setup_target_link_strategy(${target})
@@ -23,7 +23,7 @@ function(setup_library target)
     cmake_parse_arguments(TARGET "" "" "${multiValueArgs}" ${ARGN})
 
     _setup_library_sources(${target})
-    _setup_library_includes(${target})
+    _setup_target_includes(${target} PRIVATE)
     _setup_target_dependencies(${target})
 
     setup_target_link_strategy(${target})
@@ -38,41 +38,39 @@ macro(_setup_executable_sources target)
     )
 endmacro()
 
-macro(_setup_executable_includes target)
-    set(multiValueArgs SYSTEM)
-
-    cmake_parse_arguments(INCLUDES "" "" "${multiValueArgs}" ${TARGET_INCLUDES})
-
-    target_include_directories(${target}
-        PRIVATE
-            ${INCLUDES_UNPARSED_ARGUMENTS}
-    )
-
-    target_include_directories(${target} SYSTEM
-        PRIVATE
-            ${INCLUDES_SYSTEM}
-    )
-endmacro()
-
 macro(_setup_library_sources target type)
     add_library(${target} ${type}
         ${TARGET_SOURCES}
     )
 endmacro()
 
-macro(_setup_library_includes target)
-    set(multiValueArgs SYSTEM)
+macro(_setup_target_includes target scope)
+    set(REGULAR_INCLUDES "")
+    set(SYSTEM_INCLUDES "")
 
-    cmake_parse_arguments(INCLUDES "" "" "${multiValueArgs}" ${TARGET_INCLUDES})
+    set(IS_SYSTEM FALSE)
+
+    foreach(token IN LISTS TARGET_INCLUDES)
+        if(token STREQUAL "SYSTEM")
+            set(IS_SYSTEM TRUE)
+        else()
+            if(NOT IS_SYSTEM)
+                list(APPEND REGULAR_INCLUDES ${token})
+            else()
+                list(APPEND SYSTEM_INCLUDES ${token})
+                set(IS_SYSTEM FALSE)
+            endif()
+        endif()
+    endforeach()
 
     target_include_directories(${target}
-        PUBLIC
-            ${INCLUDES_UNPARSED_ARGUMENTS}
+        ${scope}
+            ${REGULAR_INCLUDES}
     )
 
     target_include_directories(${target} SYSTEM
         PRIVATE
-            ${INCLUDES_SYSTEM}
+            ${SYSTEM_INCLUDES}
     )
 endmacro()
 
