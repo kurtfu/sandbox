@@ -19,6 +19,16 @@ struct Widget
         std::cout << "Widget()\n";
     }
 
+    explicit Widget(int /* unused */)
+    {
+        std::cout << "Widget(int)\n";
+    }
+
+    Widget(std::initializer_list<int> /* unused */)
+    {
+        std::cout << "Widget(std::initializer_list<int>)\n";
+    }
+
     Widget(const Widget& /* that */)
     {
         std::cout << "Widget(const Widget&)\n";
