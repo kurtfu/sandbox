@@ -64,6 +64,22 @@ struct Widget
         return *this;
     }
 
+    void swap(Widget& that) noexcept
+    {
+        if (this == std::addressof(that))
+        {
+            return;
+        }
+
+        std::cout << "void swap(Widget&)\n";
+    }
+
+    friend void swap(Widget& lhs, Widget& rhs) noexcept
+    {
+        std::cout << "void swap(Widget&, Widget&)\n";
+        lhs.swap(rhs);
+    }
+
     friend bool operator<(const Widget& lhs, const Widget& rhs)
     {
         std::cout << "boll operator<(const Widget&, const Widget&)\n";
@@ -104,11 +120,6 @@ struct Widget
     {
         stream << "std::ostream& operator<<(std::ostream&, const Widget&)";
         return stream;
-    }
-
-    friend void swap(Widget& /* lhs */, Widget& /* rhs */) noexcept
-    {
-        std::cout << "void swap(Widget&, Widget&)\n";
     }
 };
 
