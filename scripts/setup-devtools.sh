@@ -20,14 +20,14 @@ extract() {
 }
 
 help() {
-cat << EOF | sed 's/^    //'
+    cat << EOF | sed 's/^    //'
     Usage: $0 [OPTION]...
 
     Options:
       --prefix=<path>             Specify the installation path
                                   (default: /usr/local)
       --enable-tools=<tool>...    List of tools to be installed
-                                  [<tool>={all, binutils,gcc,gdb,cmake}]
+                                  [<tool>={all, binutils,gcc,gdb,cmake,llvm}]
                                   (default: all)
       --binutils-version=<value>  GNU Binutils version to be installed
                                   (default: ${binutils_version})
@@ -37,6 +37,8 @@ cat << EOF | sed 's/^    //'
                                   (default: ${gdb_version})
       --cmake-version=<value>     CMake version to be installed
                                   (default: ${cmake_version})
+      --llvm-version=<value>      LLVM version to be installed
+                                  (default: ${llvm_version})
 EOF
 }
 
@@ -129,6 +131,26 @@ download_and_install_cmake() {
     rm -rf cmake-"$1" cmake-"$1".tar.gz
 }
 
+download_and_install_llvm() {
+    if ! expr "$1" : '[0-9]\+\.[0-9]\+\.[0-9]\+' > /dev/null; then
+        echo "Invalid version: $1"
+        exit 1
+    fi
+
+    git clone --depth 1 --branch llvmorg-"$1" https://github.com/llvm/llvm-project.git
+
+    mkdir llvm-project/build
+    cd llvm-project/build
+
+    cmake -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lldb;lld" -DCMAKE_INSTALL_PREFIX="$2" -DCMAKE_BUILD_TYPE=Release ../llvm
+
+    make -j"$(nproc)"
+    make install
+
+    cd "$CURDIR"
+    rm -rf llvm-project
+}
+
 #------------------------------------------------------------------------------
 # MAIN SCRIPT
 #------------------------------------------------------------------------------
@@ -139,6 +161,7 @@ binutils_version=2.43
 gcc_version=14.2.0
 gdb_version=15.1
 cmake_version=3.30.2
+llvm_version=19.1.3
 
 tools=all
 
@@ -161,6 +184,9 @@ while [ $# -gt 0 ]; do
         ;;
         --cmake-version*)
             cmake_version=$(extract "$1")
+        ;;
+        --llvm-version*)
+            llvm_version=$(extract "$1")
         ;;
         -h|--help)
             help
@@ -192,4 +218,8 @@ fi
 
 if echo "${tools}" | grep -q "cmake"; then
     download_and_install_cmake "${cmake_version}" "${prefix}"
+fi
+
+if echo "${tools}" | grep -q "llvm"; then
+    download_and_install_llvm "${llvm_version}" "${prefix}"
 fi
