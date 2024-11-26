@@ -27,7 +27,7 @@ help() {
       --prefix=<path>             Specify the installation path
                                   (default: /usr/local)
       --enable-tools=<tool>...    List of tools to be installed
-                                  [<tool>={all, binutils,gcc,gdb,cmake,llvm}]
+                                  [<tool>={all, binutils,gcc,gdb,cmake,llvm,iwyu}]
                                   (default: all)
       --binutils-version=<value>  GNU Binutils version to be installed
                                   (default: ${binutils_version})
@@ -39,6 +39,8 @@ help() {
                                   (default: ${cmake_version})
       --llvm-version=<value>      LLVM version to be installed
                                   (default: ${llvm_version})
+      --iwyu-version=<value>      include-what-you-use version to be installed
+                                  (default: ${iwyu_version})
 EOF
 }
 
@@ -151,6 +153,28 @@ download_and_install_llvm() {
     rm -rf llvm-project
 }
 
+download_and_install_iwyu() {
+    if ! expr "$1" : '[0-9]\+' > /dev/null; then
+        echo "Invalid version: $1"
+        exit 1
+    fi
+
+    git clone --branch clang_"$1" https://github.com/include-what-you-use/include-what-you-use.git
+
+    mkdir include-what-you-use/build
+    cd include-what-you-use/build
+
+    cmake -DCMAKE_INSTALL_PREFIX="$2" -DCMAKE_PREFIX_PATH="$2/lib" -DCMAKE_BUILD_TYPE=Release ..
+
+    make -j"$(nproc)"
+    make install
+
+    cp ../iwyu_tool.py "$2/bin"
+
+    cd "$CURDIR"
+    rm -rf include-what-you-use
+}
+
 #------------------------------------------------------------------------------
 # MAIN SCRIPT
 #------------------------------------------------------------------------------
@@ -159,9 +183,10 @@ prefix=/usr/local
 
 binutils_version=2.43
 gcc_version=14.2.0
-gdb_version=15.1
-cmake_version=3.30.2
+gdb_version=15.2
+cmake_version=3.31.0
 llvm_version=19.1.3
+iwyu_version=19
 
 tools=all
 
@@ -188,6 +213,9 @@ while [ $# -gt 0 ]; do
         --llvm-version*)
             llvm_version=$(extract "$1")
         ;;
+        --iwyu-version*)
+            iwyu_version=$(extract "$1")
+        ;;
         -h|--help)
             help
             exit 0
@@ -201,7 +229,7 @@ while [ $# -gt 0 ]; do
 done
 
 if echo "${tools}" | grep -q "all"; then
-    tools="binutils,gcc,gdb,cmake"
+    tools="binutils,gcc,gdb,cmake,llvm,iwyu"
 fi
 
 if echo "${tools}" | grep -q "binutils"; then
@@ -222,4 +250,8 @@ fi
 
 if echo "${tools}" | grep -q "llvm"; then
     download_and_install_llvm "${llvm_version}" "${prefix}"
+fi
+
+if echo "${tools}" | grep -q "iwyu"; then
+    download_and_install_iwyu "${iwyu_version}" "${prefix}"
 fi
