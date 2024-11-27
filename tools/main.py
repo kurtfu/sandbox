@@ -18,8 +18,6 @@ class Service:
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         self.acceptor.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.acceptor.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
-
         self.acceptor.settimeout(1)
 
         self.acceptor.bind(('0.0.0.0', 8088))
