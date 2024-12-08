@@ -4,6 +4,8 @@
 #include <benchmark/benchmark.h>
 
 /// \cond
+#include <algorithm>
+#include <numeric>
 #include <random>
 
 /// \endcond
@@ -20,7 +22,7 @@
 /*****************************************************************************/
 /*** FREE FUNCTIONS **********************************************************/
 
-auto random_number_generator()
+static auto random_number_generator()
 {
     constexpr std::mt19937::result_type seed = 1;
 
@@ -43,7 +45,7 @@ static void accumulator(benchmark::State& state)
     auto generator = random_number_generator();
 
     std::vector<int> numbers(num_of_items);
-    std::generate(numbers.begin(), numbers.end(), generator);
+    std::ranges::generate(numbers, generator);
 
     for (BENCHMARK_MAYBE_UNUSED const auto& _ : state)
     {
