@@ -3,7 +3,7 @@ include(Sanitizer)
 include(Warnings)
 
 function(setup_executable target)
-    set(multiValueArgs SOURCES INCLUDES DEPENDENCIES)
+    set(multiValueArgs SOURCES INCLUDES DEPENDENCIES INSTALL)
 
     cmake_parse_arguments(TARGET "" "" "${multiValueArgs}" ${ARGN})
 
@@ -15,10 +15,14 @@ function(setup_executable target)
 
     setup_target_warnings(${target})
     setup_target_for_sanitizer(${target})
+
+    if(TARGET_INSTALL)
+        install(TARGETS ${target} DESTINATION ${TARGET_INSTALL})
+    endif()
 endfunction()
 
 function(setup_library target)
-    set(multiValueArgs TYPE SOURCES INCLUDES DEPENDENCIES)
+    set(multiValueArgs TYPE SOURCES INCLUDES DEPENDENCIES INSTALL)
 
     cmake_parse_arguments(TARGET "" "" "${multiValueArgs}" ${ARGN})
 
@@ -30,6 +34,10 @@ function(setup_library target)
 
     setup_target_warnings(${target})
     setup_target_for_sanitizer(${target})
+
+    if(TARGET_INSTALL)
+        install(TARGETS ${target} DESTINATION ${TARGET_INSTALL})
+    endif()
 endfunction()
 
 macro(_setup_executable_sources target)
