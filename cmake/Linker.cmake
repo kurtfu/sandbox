@@ -32,6 +32,10 @@ else()
 endif()
 
 function(setup_target_link_strategy target)
+    if(NOT USE_STATIC_STD)
+        return()
+    endif()
+
     target_link_options(${target}
         PRIVATE
             $<$<COMPILE_LANGUAGE:C>:${PROJECT_C_LINK_OPTIONS}>
