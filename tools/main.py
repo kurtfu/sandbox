@@ -11,7 +11,9 @@ import threading
 
 
 class Service:
-    def __init__(self, name: str = os.path.splitext(os.path.basename(__file__))[0]) -> None:
+    def __init__(self,
+                 name: str = os.path.splitext(os.path.basename(__file__))[0],
+                 port: int = 8080) -> None:
         self.active = False
 
         self.acceptor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -20,7 +22,7 @@ class Service:
         self.acceptor.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.acceptor.settimeout(1)
 
-        self.acceptor.bind(('0.0.0.0', 8088))
+        self.acceptor.bind(('0.0.0.0', port))
         self.acceptor.listen()
 
         history_file = os.path.dirname(os.path.realpath(__file__))
@@ -140,9 +142,9 @@ class Service:
         except:
             pass
 
-    def recv(self) -> str | None:
+    def recv(self, length: int = 1024) -> str | None:
         try:
-            message = self.connection.recv(1024)
+            message = self.connection.recv(length)
             return None if message == b'' else message.decode()
         except:
             return None
