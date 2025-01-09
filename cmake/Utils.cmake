@@ -31,7 +31,11 @@ function(setup_library target)
 
     cmake_parse_arguments(TARGET "" "" "${multiValueArgs}" ${ARGN})
 
-    _setup_library_sources(${target})
+    if(NOT DEFINED TARGET_TYPE)
+        set(TARGET_TYPE STATIC)
+    endif()
+
+    _setup_library_sources(${target} ${TARGET_TYPE})
     _setup_target_includes(${target} PRIVATE)
     _setup_target_dependencies(${target})
     _setup_target_defines(${target})
