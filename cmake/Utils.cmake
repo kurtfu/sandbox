@@ -3,13 +3,14 @@ include(Sanitizer)
 include(Warnings)
 
 function(setup_executable target)
-    set(multiValueArgs SOURCES INCLUDES DEPENDENCIES INSTALL PROPERTIES)
+    set(multiValueArgs SOURCES INCLUDES DEPENDENCIES INSTALL PROPERTIES DEFINES)
 
     cmake_parse_arguments(TARGET "" "" "${multiValueArgs}" ${ARGN})
 
     _setup_executable_sources(${target})
     _setup_target_includes(${target} PUBLIC)
     _setup_target_dependencies(${target})
+    _setup_target_defines(${target})
 
     if (DEFINED TARGET_PROPERTIES)
         _setup_target_properties(${target})
@@ -26,13 +27,14 @@ function(setup_executable target)
 endfunction()
 
 function(setup_library target)
-    set(multiValueArgs TYPE SOURCES INCLUDES DEPENDENCIES INSTALL PROPERTIES)
+    set(multiValueArgs TYPE SOURCES INCLUDES DEPENDENCIES INSTALL PROPERTIES DEFINES)
 
     cmake_parse_arguments(TARGET "" "" "${multiValueArgs}" ${ARGN})
 
     _setup_library_sources(${target})
     _setup_target_includes(${target} PRIVATE)
     _setup_target_dependencies(${target})
+    _setup_target_defines(${target})
 
     if (DEFINED TARGET_PROPERTIES)
         _setup_target_properties(${target})
@@ -97,9 +99,16 @@ macro(_setup_target_dependencies target)
     )
 endmacro()
 
-function(_setup_target_properties target)
+macro(_setup_target_defines target)
+    target_compile_definitions(${target}
+        PRIVATE
+            ${TARGET_DEFINES}
+    )
+endmacro()
+
+macro(_setup_target_properties target)
     set_target_properties(${target}
         PROPERTIES
             ${TARGET_PROPERTIES}
     )
-endfunction()
+endmacro()
