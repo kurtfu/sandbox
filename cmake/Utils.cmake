@@ -97,9 +97,32 @@ macro(_setup_target_includes target scope)
 endmacro()
 
 macro(_setup_target_dependencies target)
+    set(DEPENDENCY_DIRECTORIES "")
+    set(DEPENDENCY_LIBRARIES "")
+
+    set(IS_DIRECTORY FALSE)
+
+    foreach(token IN LISTS TARGET_DEPENDENCIES)
+        if(token STREQUAL "DIRECTORY")
+            set(IS_DIRECTORY TRUE)
+        else()
+            if(NOT IS_DIRECTORY)
+                list(APPEND DEPENDENCY_LIBRARIES ${token})
+            else()
+                list(APPEND DEPENDENCY_DIRECTORIES ${token})
+                set(IS_DIRECTORY FALSE)
+            endif()
+        endif()
+    endforeach()
+
+    target_link_directories(${target}
+        PRIVATE
+            ${DEPENDENCY_DIRECTORIES}
+    )
+
     target_link_libraries(${target}
         PRIVATE
-            ${TARGET_DEPENDENCIES}
+            ${DEPENDENCY_LIBRARIES}
     )
 endmacro()
 
