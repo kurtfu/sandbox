@@ -5,9 +5,10 @@ import logging
 import os
 import readline
 import socket
-import sys
 import textwrap
 import threading
+
+import cli
 
 
 class Service:
@@ -47,8 +48,6 @@ class Service:
 
         atexit.register(readline.write_history_file, history_file)
 
-        self.lock = threading.Lock()
-
         self.commands = {
             'help': self.help,
             'quit': self.quit,
@@ -63,7 +62,7 @@ class Service:
         self.listener.start()
 
         while self.active:
-            cmd, args = (self.input().split(maxsplit=1) + ['', ''])[:2]
+            cmd, args = (cli.input().split(maxsplit=1) + ['', ''])[:2]
 
             if cmd == '':
                 continue
@@ -71,7 +70,7 @@ class Service:
             if cmd in self.commands:
                 self.commands[cmd](args)
             else:
-                self.println(f'error: invalid command \'{cmd}\'')
+                cli.println(f'error: invalid command \'{cmd}\'')
 
     def quit(self, _: str) -> None:
         logging.info('Terminating service...')
@@ -104,10 +103,10 @@ class Service:
         }
 
         if topic not in manuals:
-            self.println(f'error: invalid help topic \'{topic}\'')
+            cli.println(f'error: invalid help topic \'{topic}\'')
             return
 
-        self.println(textwrap.dedent(manuals[topic]))
+        cli.println(textwrap.dedent(manuals[topic]))
 
     def listen(self) -> None:
         logging.info('Waiting for connection...')
@@ -134,7 +133,7 @@ class Service:
                     logging.warning('Connection lost')
 
     def process(self, message: str) -> None:
-        self.println(message)
+        cli.println(message)
 
     def send(self, message: str) -> None:
         try:
@@ -148,21 +147,6 @@ class Service:
             return None if message == b'' else message.decode()
         except:
             return None
-
-    def println(self, message: str) -> None:
-        with self.lock:
-            sys.stdout.write('\r\033[K')
-            sys.stdout.write(f'{message}\n')
-
-            sys.stdout.write(f'> {readline.get_line_buffer()}')
-            sys.stdout.flush()
-
-    def input(self) -> str:
-        with self.lock:
-            sys.stdout.write('\r\033[K')
-            sys.stdout.flush()
-
-        return input('> ')
 
 
 def main():
