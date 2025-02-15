@@ -1,3 +1,4 @@
+find_package(Boost COMPONENTS range)
 
 setup_executable(sandbox
     SOURCES
@@ -11,6 +12,7 @@ setup_executable(sandbox-benchmark
         benchmark/accumulator.cpp
     INCLUDES
         include
+        SYSTEM ${Boost_INCLUDE_DIRS}
     DEPENDENCIES
         benchmark::benchmark_main
 )
