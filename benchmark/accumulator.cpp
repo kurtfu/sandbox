@@ -3,21 +3,13 @@
 
 #include <benchmark/benchmark.h>
 
+#include <boost/range/numeric.hpp>
+
 /// \cond
 #include <algorithm>
-#include <numeric>
 #include <random>
 
 /// \endcond
-
-/*****************************************************************************/
-/*** MACRO DEFINITIONS *******************************************************/
-
-#if __cplusplus < 201703L
-    #define BENCHMARK_MAYBE_UNUSED
-#else
-    #define BENCHMARK_MAYBE_UNUSED [[maybe_unused]]
-#endif  // __cplusplus
 
 /*****************************************************************************/
 /*** FREE FUNCTIONS **********************************************************/
@@ -47,9 +39,9 @@ static void accumulator(benchmark::State& state)
     std::vector<int> numbers(num_of_items);
     std::ranges::generate(numbers, generator);
 
-    for (BENCHMARK_MAYBE_UNUSED const auto& _ : state)
+    for ([[maybe_unused]] const auto& _ : state)
     {
-        auto result = std::accumulate(numbers.begin(), numbers.end(), 0);
+        auto result = boost::accumulate(numbers, 0);
         benchmark::DoNotOptimize(result);
     }
 }
