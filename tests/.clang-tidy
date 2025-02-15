@@ -2,7 +2,8 @@
 Checks: '
     -cert-err58-cpp,
     -cppcoreguidelines-avoid-do-while,
-    -misc-use-anonymous-namespace,
+    -cppcoreguidelines-avoid-non-const-global-variables,
+    -readability-magic-numbers,
 '
 InheritParentConfig: true
 ...

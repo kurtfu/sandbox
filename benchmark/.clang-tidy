@@ -3,9 +3,10 @@ Checks: '
     -cert-err58-cpp,
     -cert-msc32-c,
     -cert-msc51-cpp,
+    -cppcoreguidelines-avoid-magic-numbers,
     -cppcoreguidelines-avoid-non-const-global-variables,
     -cppcoreguidelines-owning-memory,
-    -misc-use-anonymous-namespace,
+    -readability-magic-numbers,
 '
 InheritParentConfig: true
 ...
