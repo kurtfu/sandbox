@@ -132,9 +132,6 @@ class Service:
                     connected = False
                     logging.warning('Connection lost')
 
-    def process(self, message: str) -> None:
-        cli.println(message)
-
     def send(self, message: str) -> None:
         try:
             self.connection.send(message.encode())
@@ -147,6 +144,9 @@ class Service:
             return None if message == b'' else message.decode()
         except:
             return None
+
+    def process(self, message: str) -> None:
+        cli.println(message)
 
 
 def main():
