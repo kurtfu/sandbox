@@ -9,7 +9,7 @@ setup_executable(sandbox
 
 setup_executable(sandbox-benchmark
     SOURCES
-        benchmark/accumulator.cpp
+        benchmarks/accumulator.cpp
     INCLUDES
         include
         SYSTEM ${Boost_INCLUDE_DIRS}
