@@ -10,6 +10,7 @@ set(MSVC_WARNINGS
     /w14555
     /w14826
     /w14928
+    /permissive-
 )
 
 set(CLANG_C_WARNINGS
