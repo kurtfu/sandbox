@@ -1,4 +1,4 @@
-find_package(Boost COMPONENTS range)
+find_package(Boost CONFIG COMPONENTS range)
 
 setup_executable(sandbox
     SOURCES
