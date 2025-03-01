@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import argparse
 import atexit
 import logging
 import os
@@ -13,8 +14,8 @@ import cli
 
 class Service:
     def __init__(self,
-                 name: str = os.path.splitext(os.path.basename(__file__))[0],
-                 port: int = 8080) -> None:
+                 port: int,
+                 name: str = os.path.splitext(os.path.basename(__file__))[0]):
         self.active = False
 
         self.acceptor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -150,7 +151,15 @@ class Service:
 
 
 def main():
-    service = Service()
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('port', type=int,
+                        metavar='<port>',
+                        help='TCP port for client connection')
+
+    args = parser.parse_args()
+
+    service = Service(args.port)
     service.run()
 
 
