@@ -127,7 +127,7 @@ class Service:
             while connected:
                 message = self.recv()
 
-                if message is not None:
+                if message != '':
                     self.process(message)
                 else:
                     connected = False
@@ -139,12 +139,12 @@ class Service:
         except:
             pass
 
-    def recv(self, length: int = 1024) -> str | None:
+    def recv(self, length: int = 1024) -> str:
         try:
             message = self.connection.recv(length)
-            return None if message == b'' else message.decode()
+            return '' if message == b'' else message.decode()
         except:
-            return None
+            return ''
 
     def process(self, message: str) -> None:
         cli.println(message)
@@ -153,9 +153,14 @@ class Service:
 def main():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('port', type=int,
-                        metavar='<port>',
-                        help='TCP port for client connection')
+    parser.add_argument(
+        '-p',
+        type=int,
+        metavar='<port>',
+        dest='port',
+        required=True,
+        help='TCP port for client connection'
+    )
 
     args = parser.parse_args()
 
