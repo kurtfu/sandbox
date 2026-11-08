@@ -4,14 +4,14 @@ setup_executable(sandbox
     SOURCES
         src/main.cpp
     INCLUDES
-        include
+        src
 )
 
 setup_executable(sandbox-benchmark
     SOURCES
         benchmarks/accumulator.cpp
     INCLUDES
-        include
+        src
         SYSTEM ${Boost_INCLUDE_DIRS}
     DEPENDENCIES
         benchmark::benchmark_main
@@ -21,7 +21,7 @@ setup_executable(sandbox-test
     SOURCES
         tests/widget.cpp
     INCLUDES
-        include
+        src
     DEPENDENCIES
         Catch2::Catch2WithMain
 )
