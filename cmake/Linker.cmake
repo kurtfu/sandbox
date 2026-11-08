@@ -1,7 +1,13 @@
 option(USE_STATIC_STD "Use static version of standard libraries" OFF)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 set(GCC_C_LINK_FLAGS
     -static-libgcc
+)
+
+set(CLANG_C_LINK_FLAGS
+    -static
 )
 
 set(GCC_CXX_LINK_FLAGS
@@ -13,11 +19,13 @@ set(CLANG_CXX_LINK_FLAGS
     -static-libstdc++
 )
 
-if("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
+if("${CMAKE_C_COMPILER_ID}" MATCHES "Clang")
+    set(PROJECT_C_LINK_OPTIONS ${CLANG_C_LINK_FLAGS})
+elseif("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
     set(PROJECT_C_LINK_OPTIONS ${GCC_C_LINK_FLAGS})
 else()
     if("C" IN_LIST languages)
-        message(STATUS "No compiler warnigs set for C compiler: '${CMAKE_C_COMPILER_ID}'")
+        message(STATUS "No linking option set for C compiler: '${CMAKE_C_COMPILER_ID}'")
     endif()
 endif()
 
