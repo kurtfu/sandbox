@@ -7,6 +7,7 @@
             "binaryDir": "${sourceDir}/build",
             "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
+                "CMAKE_C_STANDARD": "99",
                 "CMAKE_CXX_STANDARD": "20",
                 "ENABLE_COVERAGE": "OFF",
                 "ENABLE_LINTERS": "OFF",
@@ -38,6 +39,7 @@
             "name": "clang-base",
             "hidden": true,
             "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
                 "CMAKE_CXX_COMPILER": "clang++"
             }
         },
@@ -45,7 +47,28 @@
             "name": "gcc-base",
             "hidden": true,
             "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc",
                 "CMAKE_CXX_COMPILER": "g++"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            }
+        },
+        {
+            "name": "mingw-base",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            },
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++",
+                "VCPKG_TARGET_TRIPLET": "x64-mingw-static",
+                "VCPKG_HOST_TRIPLET": "x64-mingw-static"
             }
         },
         {
@@ -92,6 +115,24 @@
                 "gcc-base"
             ],
             "displayName": "gcc - Release",
+            "description": "Optimize for speed - exclude debug information."
+        },
+        {
+            "name": "mingw-debug",
+            "inherits": [
+                "debug-base",
+                "mingw-base"
+            ],
+            "displayName": "mingw - Debug",
+            "description": "Disable optimizations - include debug information."
+        },
+        {
+            "name": "mingw-release",
+            "inherits": [
+                "release-base",
+                "mingw-base"
+            ],
+            "displayName": "mingw - Release",
             "description": "Optimize for speed - exclude debug information."
         },
         {
