@@ -4,7 +4,9 @@
 /*****************************************************************************/
 /*** HEADER INCLUDES *********************************************************/
 
+#include <initializer_list>
 #include <iostream>
+#include <memory>
 
 /*****************************************************************************/
 /*** DATA TYPES **************************************************************/
@@ -79,25 +81,25 @@ struct Widget
 
     friend bool operator<(const Widget& lhs, const Widget& rhs)
     {
-        std::cout << "boll operator<(const Widget&, const Widget&)\n";
+        std::cout << "bool operator<(const Widget&, const Widget&)\n";
         return std::addressof(lhs) < std::addressof(rhs);
     }
 
     friend bool operator>(const Widget& lhs, const Widget& rhs)
     {
-        std::cout << "bool operator<(const Widget&, const Widget&)\n";
+        std::cout << "bool operator>(const Widget&, const Widget&)\n";
         return rhs < lhs;
     }
 
     friend bool operator<=(const Widget& lhs, const Widget& rhs)
     {
-        std::cout << "bool operator<(const Widget&, const Widget&)\n";
+        std::cout << "bool operator<=(const Widget&, const Widget&)\n";
         return !(lhs > rhs);
     }
 
     friend bool operator>=(const Widget& lhs, const Widget& rhs)
     {
-        std::cout << "bool operator<(const Widget&, const Widget&)\n";
+        std::cout << "bool operator>=(const Widget&, const Widget&)\n";
         return !(lhs < rhs);
     }
 
