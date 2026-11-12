@@ -1,4 +1,4 @@
-find_package(Boost CONFIG COMPONENTS range)
+find_package(Boost CONFIG REQUIRED COMPONENTS range)
 
 setup_executable(sandbox
     SOURCES
@@ -7,14 +7,14 @@ setup_executable(sandbox
         src
 )
 
-setup_executable(sandbox-benchmark
+setup_benchmark(sandbox-benchmark
     SOURCES
         benchmarks/accumulator.cpp
     INCLUDES
         src
-        SYSTEM ${Boost_INCLUDE_DIRS}
     DEPENDENCIES
         benchmark::benchmark_main
+        Boost::headers
 )
 
 setup_test(sandbox-test
