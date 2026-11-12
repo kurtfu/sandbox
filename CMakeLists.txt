@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21.0)
-project(toolbox LANGUAGES C CXX)
+project(sandbox LANGUAGES C CXX)
 
 if(NOT DEFINED CMAKE_C_STANDARD)
     set(CMAKE_C_STANDARD 99)
@@ -21,21 +21,15 @@ set(CMAKE_CUDA_USE_RESPONSE_FILE_FOR_OBJECTS OFF)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-include(Coverage)
+include(Benchmark)
 include(Docs)
 include(Linter)
 include(Utils)
-
-find_package(benchmark)
-find_package(Catch2)
-
-include(CTest)
-include(Catch)
 
 include(projects/sandbox.cmake)

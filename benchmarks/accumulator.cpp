@@ -6,10 +6,9 @@
 #include <boost/range/algorithm.hpp>
 #include <boost/range/numeric.hpp>
 
-/// \cond
+#include <cstddef>
 #include <random>
-
-/// \endcond
+#include <vector>
 
 /*****************************************************************************/
 /*** FREE FUNCTIONS **********************************************************/

@@ -17,7 +17,7 @@ setup_executable(sandbox-benchmark
         benchmark::benchmark_main
 )
 
-setup_executable(sandbox-test
+setup_test(sandbox-test
     SOURCES
         tests/widget.cpp
     INCLUDES
@@ -25,6 +25,3 @@ setup_executable(sandbox-test
     DEPENDENCIES
         Catch2::Catch2WithMain
 )
-
-catch_discover_tests(sandbox-test)
-add_coverage(sandbox-test)
