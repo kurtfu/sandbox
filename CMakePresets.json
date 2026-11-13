@@ -53,8 +53,7 @@
             "hidden": true,
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "clang",
-                "CMAKE_CXX_COMPILER": "clang++",
-                "PROJECT_LINKER": "lld"
+                "CMAKE_CXX_COMPILER": "clang++"
             }
         },
         {
