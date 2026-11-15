@@ -27,8 +27,10 @@ help() {
       --prefix=<path>             Specify the installation path
                                   (default: /usr/local)
       --enable-tools=<tool>...    List of tools to be installed
-                                  [<tool>={all, binutils,gcc,gdb,cmake,llvm,iwyu}]
+                                  [<tool>={all,binutils,gcc,gdb,cmake,llvm,iwyu}]
                                   (default: all)
+      --llvm-targets=<target>...  LLVM targets to be build
+                                  (default: host)
       --binutils-version=<value>  GNU Binutils version to be installed
                                   (default: ${binutils_version})
       --gcc-version=<value>       GCC version to be installed
@@ -144,7 +146,15 @@ download_and_install_llvm() {
     mkdir llvm-project/build
     cd llvm-project/build
 
-    cmake -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lldb;lld" -DCMAKE_INSTALL_PREFIX="$2" -DCMAKE_BUILD_TYPE=Release ../llvm
+    cmake -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX="$2" \
+        -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lldb;lld" \
+        -DLLVM_ENABLE_RUNTIMES="compiler-rt;libcxx;libcxxabi;libunwind" \
+        -DLLVM_TARGETS_TO_BUILD="${targets}" \
+        -DLLVM_INCLUDE_TESTS=OFF \
+        -DLLVM_INCLUDE_BENCHMARKS=OFF \
+        -DLLVM_INCLUDE_EXAMPLES=OFF \
+        ../llvm
 
     make -j"$(nproc)"
     make install
@@ -159,12 +169,12 @@ download_and_install_iwyu() {
         exit 1
     fi
 
-    git clone --branch clang_"$1" https://github.com/include-what-you-use/include-what-you-use.git
+    git clone --depth 1 --branch clang_"$1" https://github.com/include-what-you-use/include-what-you-use.git
 
     mkdir include-what-you-use/build
     cd include-what-you-use/build
 
-    cmake -DCMAKE_INSTALL_PREFIX="$2" -DCMAKE_PREFIX_PATH="$2/lib" -DCMAKE_BUILD_TYPE=Release ..
+    cmake -DCMAKE_INSTALL_PREFIX="$2" -DCMAKE_PREFIX_PATH="$2" -DCMAKE_BUILD_TYPE=Release ..
 
     make -j"$(nproc)"
     make install
@@ -181,14 +191,15 @@ download_and_install_iwyu() {
 
 prefix=/usr/local
 
-binutils_version=2.43
-gcc_version=14.2.0
-gdb_version=15.2
-cmake_version=3.31.0
-llvm_version=19.1.3
-iwyu_version=19
+binutils_version=2.47
+gcc_version=16.2.0
+gdb_version=17.2
+cmake_version=4.4.5
+llvm_version=23.1.5
+iwyu_version=23
 
 tools=all
+targets=host
 
 while [ $# -gt 0 ]; do
     case $1 in
@@ -197,6 +208,9 @@ while [ $# -gt 0 ]; do
         ;;
         --enable-tools*)
             tools=$(extract "$1")
+        ;;
+        --llvm-targets*)
+            targets=$(extract "$1")
         ;;
         --binutils-version*)
             binutils_version=$(extract "$1")
