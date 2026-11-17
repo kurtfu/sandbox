@@ -5,6 +5,8 @@ setup_executable(sandbox
         src/main.cpp
     INCLUDES
         src
+    DEPENDENCIES
+        toolbox
 )
 
 setup_benchmark(sandbox-benchmark

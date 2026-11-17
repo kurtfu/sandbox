@@ -3,7 +3,9 @@
     "dependencies": [
         "benchmark",
         "boost-range",
-        "catch2"
+        "catch2",
+        "quill",
+        "replxx"
     ],
     "overrides": [
         {
@@ -13,6 +15,14 @@
         {
             "name": "catch2",
             "version": "3.7.1"
+        },
+        {
+            "name": "quill",
+            "version": "11.0.1"
+        },
+        {
+            "name": "replxx",
+            "version": "0.0.4"
         }
     ]
 }
