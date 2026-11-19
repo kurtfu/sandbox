@@ -87,7 +87,10 @@
         {
             "name": "msvc-base",
             "hidden": true,
-            "generator": "Visual Studio 17 2022",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl",
+                "CMAKE_CXX_COMPILER": "cl"
+            },
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
