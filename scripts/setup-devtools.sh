@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 set -eu
 
 #------------------------------------------------------------------------------
@@ -12,11 +12,14 @@ CURDIR=$PWD
 #------------------------------------------------------------------------------
 
 extract() {
-    if expr "$1" : '.*=.*' > /dev/null; then
-        echo "${1#*=}"
-    else
-        echo ""
+    value="${1#*=}"
+
+    if [ "$value" = "$1" ] || [ -z "$value" ]; then
+        echo "error: invalid format '$1' expected ${1%%=*}=<value>" >&2
+        exit 1
     fi
+
+    echo $value
 }
 
 help() {
