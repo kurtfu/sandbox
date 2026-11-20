@@ -56,10 +56,17 @@ public:
         while (m_active)
         {
             auto input = cli::input();
-            auto index = input.find(' ');
 
-            auto cmd = input.substr(0, index);
-            auto args = (index == std::string::npos) ? "" : input.substr(index + 1);
+            if (!input.has_value())
+            {
+                stop();
+                continue;
+            }
+
+            auto index = (*input).find(' ');
+
+            auto cmd = (*input).substr(0, index);
+            auto args = (index == std::string::npos) ? "" : (*input).substr(index + 1);
 
             if (cmd.empty())
             {
